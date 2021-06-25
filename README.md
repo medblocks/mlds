@@ -18,10 +18,10 @@ python main.py list --members "IN, IHTSDO" > table.md
 
 You can also view [table.md](./table.md), but it may not be up to date.
 
-Get the `id` from the table and put them in a txt file - let's say `release.txt`.
+Get the `id` from the table and put them in a txt file - let's say `releases.txt`.
 
 ```sh
-python main.py download --username <username> --password <password> release.txt
+python main.py download --username <username> --password <password> releases.txt
 ```
 
 ## Environment Variables
