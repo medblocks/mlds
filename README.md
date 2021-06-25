@@ -3,22 +3,24 @@
 Scripts to downloads SNOMED release files from MLDS, index and publish a docker container. Uses [Hermes](https://github.com/wardle/hermes) for indexing and search capabilities.
 
 ## Installation
-```
-pip install requirements.txt
+
+```sh
+pip install -r requirements.txt
 ```
 
 ## Usage
 
 List all the release files in a markdown table
 
-```
+```sh
 python main.py list --members "IN, IHTSDO" > table.md
 ```
+
 You can also view [table.md](./table.md), but it may not be up to date.
 
 Get the `id` from the table and put them in a txt file - let's say `release.txt`.
 
-```
+```sh
 python main.py download --username <username> --password <password> release.txt
 ```
 
