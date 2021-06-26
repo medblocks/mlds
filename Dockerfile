@@ -1,14 +1,15 @@
-FROM python:3.8 as python
+FROM python:3 as python
 RUN mkdir -p /src
 WORKDIR /src
-COPY requirements.txt .
+COPY ./requirements.txt .
+RUN pip install -r /src/requirements.txt
+COPY . .
 ARG username
 ARG password
 ENV MLDS_DOWNLOAD_USERNAME=$username
 ENV MLDS_DOWNLOAD_PASSWORD=$password
-RUN "pip install -r requirements.txt"
-RUN "python main.py dowload releases.txt"
-RUN "python main.py extract"
+RUN python main.py download indian.txt
+RUN python main.py extract
 
 FROM openjdk:8 as indexer
 RUN mkdir -p /src
@@ -16,9 +17,9 @@ WORKDIR /src
 COPY --from=python /src/downloads/extracts ./extracts
 # Auto download from releaes using curl
 COPY ./hermes-v0.6.2.jar ./hermes.jar
-RUN "java -jar hermes.jar -d ./snomed.db import ./extracts"
-RUN "java -jar hermes.jar -d ./snomed.db index"
-RUN "java -Xmx8g -jar hermes.jar -d ./snomed.db compact"
+RUN java -jar hermes.jar -d ./snomed.db import ./extracts
+RUN java -jar hermes.jar -d ./snomed.db index
+RUN java -Xmx8g -jar hermes.jar -d ./snomed.db compact
 
 FROM openjdk:8
 RUN mkdir -p /src
