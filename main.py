@@ -99,7 +99,7 @@ def list(members):
 
 @click.group()
 def cli():
-    click.echo('SNOMED CT - MDLS Scrapping tool')
+    pass
 
 
 @click.command()
