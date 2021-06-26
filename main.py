@@ -1,9 +1,11 @@
 import os
-from tqdm import tqdm
 import requests
-from prettytable import PrettyTable, MARKDOWN
 import click
 import re
+from tqdm import tqdm
+from prettytable import PrettyTable, MARKDOWN
+import zipfile
+
 
 def get_packages(baseUrl="https://mlds.ihtsdotools.org"):
     r = requests.get(f"{baseUrl}/api/releasePackages")
@@ -50,9 +52,25 @@ def download_progress(url: str, folder: str, session: requests.Session):
             bar.update(size)
 
 
+def unzip_file(filename: str, extract_folder="extracts"):
+    with zipfile.ZipFile(filename, 'r') as snomed_zip_file:
+        snomed_zip_file.extractall(extract_folder)
+
+
 def get_to_download(filename: str):
     with open(filename, 'r') as f:
         return f.read()
+
+
+@click.command()
+@click.option('--dir', default="downloads")
+def extract(dir):
+    extract_folder = os.path.join(dir,"extracts")
+    for allfiles in os.listdir(dir):
+        if allfiles.split('.')[-1] == 'zip':
+            file_path = os.path.join(dir, allfiles)
+            click.echo(f"Extracting {file_path}")
+            unzip_file(file_path, extract_folder)
 
 
 @click.command()
@@ -104,4 +122,5 @@ def download(filename, directory, username, password):
 if __name__ == '__main__':
     cli.add_command(download)
     cli.add_command(list)
+    cli.add_command(extract)
     cli(auto_envvar_prefix='MLDS')
