@@ -12,7 +12,7 @@ RUN python main.py download international.txt
 RUN python main.py download indian.txt
 RUN python main.py extract
 
-FROM openjdk:8-jre-slim as indexer
+FROM openjdk:11-jre-slim as indexer
 RUN mkdir -p /src
 WORKDIR /src
 COPY --from=python /src/downloads/extracts ./extracts
@@ -22,7 +22,7 @@ RUN java -jar hermes.jar -d ./snomed.db import ./extracts
 RUN java -jar hermes.jar -d ./snomed.db index
 # RUN java -Xmx8g -jar hermes.jar -d ./snomed.db compact
 
-FROM openjdk:8-jre-slim
+FROM openjdk:11-jre-slim
 RUN mkdir -p /src
 WORKDIR /src
 COPY ./hermes-v0.6.2.jar ./hermes.jar
