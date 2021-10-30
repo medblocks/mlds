@@ -8,8 +8,7 @@ ARG username
 ARG password
 ENV MLDS_DOWNLOAD_USERNAME=$username
 ENV MLDS_DOWNLOAD_PASSWORD=$password
-RUN python main.py download international.txt
-RUN python main.py download indian.txt
+RUN python main.py download packages.txt
 RUN python main.py extract
 
 FROM openjdk:11-jre-slim as indexer
