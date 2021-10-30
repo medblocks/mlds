@@ -1,6 +1,14 @@
-632014 - Drug codes
-522177 - Indian Refset
-481123 - Indian Geography
-481117 - Patient language refset
-495391 - Covid 19 Extension
-600196 - Ayush Extension
+International
+167    | SNOMED CT International Edition
+36882  | SNOMED CT GP/FP Refset package
+133814 | SNOMED CT General Dentistry Diagnostic refset package
+499533 | SNOMED CT Global Patient Set (GPS) RF2 Refset package
+500193 | SNOMED CT International Patient Set (IPS) RF2 Refset package
+
+Indian
+194856 | India Reference Sets for SNOMED CT
+395763 | Common Drug Codes for India (Terminology Integrated Package)
+442922 | India COVID-19 Extension for SNOMED CT
+480480 | India Geographical Location Extension for SNOMED CT
+480580 | India Patient Instructions Language Extension for SNOMED CT
+600189 | India AYUSH Extension

@@ -1,3 +1,0 @@
-As long as the full id is present, this file can contain anything else.
-Releases:
-431021 - SNOMED CT International Edition

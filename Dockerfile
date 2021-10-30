@@ -17,7 +17,7 @@ RUN mkdir -p /src
 WORKDIR /src
 COPY --from=python /src/downloads/extracts ./extracts
 # Auto download from releaes using curl
-COPY ./hermes-v0.8.0.jar ./hermes.jar
+COPY ./hermes-v0.8.1.jar ./hermes.jar
 RUN java -jar hermes.jar -d ./snomed.db import ./extracts
 RUN java -jar hermes.jar -d ./snomed.db index
 # RUN java -Xmx8g -jar hermes.jar -d ./snomed.db compact
