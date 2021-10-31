@@ -24,6 +24,6 @@ RUN java -jar hermes.jar -d ./snomed.db index
 FROM openjdk:11-jre-slim
 RUN mkdir -p /src
 WORKDIR /src
-COPY ./hermes-v0.6.2.jar ./hermes.jar
+COPY ./hermes-v0.8.1.jar ./hermes.jar
 COPY --from=indexer /src/snomed.db ./snomed.db
 CMD ["java", "-jar", "/src/hermes.jar", "-a", "0.0.0.0", "-d", "/src/snomed.db", "-p", "8080", "serve"]
