@@ -5,4 +5,4 @@ steps:
 images:
 - gcr.io/medblocks/hermes:$TAG_NAME
 - gcr.io/medblocks/hermes:latest
-timeout: 3600s
+timeout: 7200s
