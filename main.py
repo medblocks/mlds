@@ -6,6 +6,7 @@ from tqdm import tqdm
 from prettytable import PrettyTable, MARKDOWN
 import zipfile
 from dateutil import parser
+import threading
 
 def get_packages(baseUrl="https://mlds.ihtsdotools.org"):
     r = requests.get(f"{baseUrl}/api/releasePackages")
@@ -47,29 +48,6 @@ def get_packages(baseUrl="https://mlds.ihtsdotools.org"):
         #         )
     return files
 
-
-def download_progress(url: str, folder: str, session: requests.Session):
-    resp = session.get(
-        url, stream=True)
-    if resp.status_code != 200:
-        click.echo(
-            "Authentication Failed. Please check your username and password.")
-        exit(1)
-    total = int(resp.headers.get('content-length', 0))
-    d = resp.headers.get('content-disposition')
-    file = re.findall("filename=(.+)", d)[0]
-    file = file.replace('"', "")
-    fname = os.path.join(folder, file)
-    with open(fname, 'wb') as file, tqdm(
-        desc=fname,
-        total=total,
-        unit='iB',
-        unit_scale=True,
-        unit_divisor=1024,
-    ) as bar:
-        for data in resp.iter_content(chunk_size=1024):
-            size = file.write(data)
-            bar.update(size)
 
 
 def unzip_file(filename: str, extract_folder="extracts"):
@@ -122,12 +100,60 @@ def cli():
     pass
 
 
+def download_progress(url: str, folder: str, session: requests.Session, threads : int):
+    resp = session.get(
+        url, stream=True)
+    if resp.status_code != 200:
+        click.echo(
+            "Authentication Failed. Please check your username and password.")
+        exit(1)
+    file_size = int(resp.headers.get('content-length', 0))
+    d = resp.headers.get('content-disposition')
+    file_name = re.findall("filename=(.+)", d)[0]
+    file_name = file_name.replace('"', "")
+    file_path = os.path.join(folder, file_name)
+    part = int(file_size) / threads
+    fp = open(file_name, "wb")
+    fp.write('\0'.encode() * file_size)
+    fp.close()
+    for i in range(threads):
+        start = part * i
+        end = start + part
+        t = threading.Thread(target=Handler,
+            kwargs={'start': start, 'end': end, 'url': url, 'filename': file_name})
+        t.setDaemon(True)
+        t.start()
+    main_thread = threading.current_thread()
+    for t in threading.enumerate():
+        if t is main_thread:
+            continue
+        t.join()
+    print("File download complete " + file_name)
+
+
+def Handler(start, end, url, filename):
+     
+    # specify the starting and ending of the file
+    headers = {'Range': 'bytes=%d-%d' % (start, end)}
+  
+    # request the specified part and get into variable    
+    r = requests.get(url, headers=headers, stream=True)
+  
+    # open the file and write the content of the html page 
+    # into file.
+    with open(filename, "r+b") as fp:
+        fp.seek(start)
+        var = fp.tell()
+        fp.write(r.content)
+
+
 @click.command()
 @click.argument('filename', type=click.Path(exists=True))
 @click.option('--directory', '-d', help='Output directory', default="downloads")
+@click.option('—threads', '-t',default=4, help="No of Threads")
 @click.option('--username', '-u', help='Usually email id.', required=True, prompt=True)
 @click.option('--password', '-p', help="Password to login", required=True, prompt=True, hide_input=True)
-def download(filename, directory, username, password):
+def download(filename, threads, directory, username, password):
     os.makedirs(directory, exist_ok=True)
     packages = get_packages()
     to_download = get_to_download(filename)
@@ -136,7 +162,7 @@ def download(filename, directory, username, password):
     session = requests.Session()
     session.auth = (username, password)
     for file in to_download:
-        download_progress(file["url"], directory, session)
+        download_progress(file["url"], directory, session, threads)
 
 
 if __name__ == '__main__':
