@@ -51,9 +51,14 @@ def get_packages(baseUrl="https://mlds.ihtsdotools.org"):
 def download_progress(url: str, folder: str, session: requests.Session):
     resp = session.get(
         url, stream=True)
+    print(resp.status_code)
     if resp.status_code != 200:
-        click.echo(
-            "Authentication Failed. Please check your username and password.")
+        if resp.status_code == 500:
+            click.echo(
+            "SNOMED Internal server error. Please try after sometime")
+        else:
+            click.echo(
+                "Authentication Failed. Please check your username and password.")
         exit(1)
     total = int(resp.headers.get('content-length', 0))
     d = resp.headers.get('content-disposition')
