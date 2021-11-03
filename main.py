@@ -12,7 +12,6 @@ def get_packages(baseUrl="https://mlds.ihtsdotools.org"):
     packages = r.json()
     files = []
     for package in packages:
-        # print(package["releaseVersions"][0])
         s = sorted(package["releaseVersions"], key=lambda release: parser.parse(release["createdAt"]))
         latest = s[-1]
         file = {
@@ -21,30 +20,15 @@ def get_packages(baseUrl="https://mlds.ihtsdotools.org"):
             "member": package["member"]["key"],
             "latest": latest["createdAt"],
             "file": [i for i in latest["releaseFiles"] if ".zip" in i["label"] and ".zip.md5" not in i["label"]]
-            # "download_latest":  f'{baseUrl}{package["releaseVersions"][0]}'
         }
         
         if len(file["file"]) > 1:
             print("Warning: ", package["name"], 
-            # [i["label"] for i in file["file"]], 
             "more than 1 .zip file")
 
         if len(file["file"]) > 0:
             file["url"] = f'{baseUrl}{file["file"][0]["clientDownloadUrl"]}'
             files.append(file)
-        # for releaseVersion in package["releaseVersions"]:
-        #     for releaseFile in releaseVersion["releaseFiles"]:
-        #         files.append(
-        #             {
-        #                 "file": releaseFile["label"],
-        #                 "date": releaseFile["createdAt"],
-        #                 "id": releaseFile["releaseFileId"],
-        #                 "url": f'{baseUrl}{releaseFile["clientDownloadUrl"]}',
-        #                 "package": package["name"],
-        #                 "version": releaseVersion["name"],
-        #                 "member": package["member"]["key"]
-        #             }
-        #         )
     return files
 
 
