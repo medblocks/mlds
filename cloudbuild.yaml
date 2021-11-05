@@ -1,7 +1,7 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
-  args: ['-c', 'docker build -t gcr.io/medblocks/hermes:$TAG_NAME -t gcr.io/medblocks/hermes --build-arg username=${_MLDS_USERNAME} --build-arg password=${_MLDS_PASSWORD} .']
+  args: ['-c', 'docker build -t gcr.io/medblocks/hermes:$TAG_NAME -t gcr.io/medblocks/hermes --build-arg GCS_LOCATION=${_GCS_LOCATION} .']
 images:
 - gcr.io/medblocks/hermes:$TAG_NAME
 - gcr.io/medblocks/hermes:latest
