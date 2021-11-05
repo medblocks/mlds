@@ -1,11 +1,11 @@
-ARG gs_location
+ARG GCS_LOCATION
 
 FROM python:3 as gsutils
 RUN mkdir -p /src/downloads/extracts
 WORKDIR /src/downloads
 RUN pip install gsutil && apt-get -y install --no-install-recommends unzip
 # Download SNOMED files from GCS
-RUN gsutil cp -r ${gs_location} .
+RUN gsutil cp -r $GCS_LOCATION .
 # Unzip the files
 RUN unzip \*.zip -d ./extracts; exit 0
 
