@@ -6,3 +6,6 @@ images:
 - gcr.io/medblocks/hermes:$TAG_NAME
 - gcr.io/medblocks/hermes:latest
 timeout: 7200s
+
+options:
+  machineType: 'E2-HIGHCPU-16'
