@@ -6,7 +6,6 @@ RUN mkdir -p /src/downloads/extracts
 WORKDIR /src/downloads
 RUN pip install gsutil && apt-get -y install --no-install-recommends unzip
 # Download SNOMED files from GCS
-RUN echo $GCS_LOCATION
 RUN gsutil cp -r $GCS_LOCATION .
 # Unzip the files
 RUN unzip \*.zip -d ./extracts; exit 0
