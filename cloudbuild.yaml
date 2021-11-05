@@ -8,4 +8,4 @@ images:
 timeout: 7200s
 
 options:
-  machineType: 'E2-HIGHCPU-16'
+  machineType: 'E2_HIGHCPU_32'
