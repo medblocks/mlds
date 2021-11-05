@@ -1,7 +1,6 @@
 ARG HERMES_VERSION=0.8.3
 
 FROM python:3 as gsutils
-ENV GCS_LOCATION=$GCS_LOCATION
 RUN mkdir -p /src/downloads/extracts
 WORKDIR /src/downloads
 RUN pip install gsutil && apt-get -y install --no-install-recommends unzip
