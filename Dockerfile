@@ -1,4 +1,4 @@
-ARG HERMES_VERSION=v0.8.3
+ARG HERMES_VERSION=v0.8.4--alpha
 
 FROM google/cloud-sdk:363.0.0-alpine as gsutils
 ARG GCS_LOCATION
