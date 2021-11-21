@@ -25,4 +25,4 @@ FROM openjdk:11-jre-slim
 COPY --from=gsutils /src/downloads/hermes.jar /app/hermes.jar
 COPY --from=indexer /src/snomed.db /app/snomed.db
 WORKDIR /app
-CMD ["java", "-jar", "hermes.jar", "-a", "0.0.0.0", "-d", "snomed.db", "-p", "8080", "--allowed-origin", "*", "serve"]
+CMD ["java", "-jar", "hermes.jar", "-a", "0.0.0.0", "-d", "snomed.db", "-p", "8080", "--allowed-origins", "*", "serve"]
