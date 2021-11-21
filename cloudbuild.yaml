@@ -3,7 +3,7 @@ steps:
   entrypoint: 'bash'
   args: ['-c', 'docker build -t gcr.io/medblocks/hermes:$BUILD_ID -t gcr.io/medblocks/hermes --build-arg GCS_LOCATION=${_GCS_LOCATION} .']
 images:
-- gcr.io/medblocks/hermes:$TAG_NAME
+- gcr.io/medblocks/hermes:$BUILD_ID
 - gcr.io/medblocks/hermes:latest
 timeout: 7200s
 
