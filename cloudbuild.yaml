@@ -1,10 +1,10 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
-  args: ['-c', 'docker build -t gcr.io/medblocks/hermes:$BUILD_ID -t gcr.io/medblocks/hermes --build-arg GCS_LOCATION=${_GCS_LOCATION} .']
+  args: ['-c', 'docker build -t gcr.io/our-velocity-330707/hermes:$BUILD_ID -t gcr.io/our-velocity-330707/hermes --build-arg GCS_LOCATION=${_GCS_LOCATION} .']
 images:
-- gcr.io/medblocks/hermes:$BUILD_ID
-- gcr.io/medblocks/hermes:latest
+- gcr.io/$PROJECT_ID/hermes:$BUILD_ID
+- gcr.io/$PROJECT_ID/hermes:latest
 timeout: 7200s
 
 options:
