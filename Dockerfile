@@ -1,4 +1,4 @@
-ARG HERMES_VERSION=v0.12.654
+# Change Hermes Version on line 12
 
 FROM google/cloud-sdk:363.0.0-alpine as gsutils
 ARG GCS_LOCATION
@@ -9,8 +9,8 @@ WORKDIR /src/downloads
 RUN gsutil cp -r $GCS_LOCATION .
 # Unzip the files
 RUN for i in *.zip; do unzip "$i" -d "./extracts/${i%%.zip}"; done
-RUN wget -O hermes.jar https://github.com/wardle/hermes/releases/download/${HERMES_VERSION}/hermes-${HERMES_VERSION}.jar 
-
+# Change version here
+RUN wget -O hermes.jar https://github.com/wardle/hermes/releases/download/v0.12.654/hermes-0.12.654.jar 
 
 FROM openjdk:11-jre-slim as indexer
 RUN mkdir -p /src
