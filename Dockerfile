@@ -10,7 +10,7 @@ RUN gsutil cp -r $GCS_LOCATION .
 # Unzip the files
 RUN for i in *.zip; do unzip "$i" -d "./extracts/${i%%.zip}"; done
 # Change version here
-RUN wget -O hermes.jar https://github.com/wardle/hermes/releases/download/v0.12.654/hermes-0.12.654.jar 
+RUN wget -O hermes.jar https://github.com/wardle/hermes/releases/download/v0.12.664/hermes-0.12.664.jar 
 
 FROM openjdk:11-jre-slim as indexer
 RUN mkdir -p /src
